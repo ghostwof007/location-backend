@@ -3,22 +3,17 @@ const cors = require("cors");
 
 const app = express();
 
-// ✅ Strong CORS fix
-app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type"]
-}));
-
-// ✅ Handle preflight requests
-app.options("*", cors());
+// ✅ Simple & safe CORS (this is enough)
+app.use(cors());
 
 app.use(express.json());
 
+// Home route
 app.get("/", (req, res) => {
   res.send("Server is running 🚀");
 });
 
+// Location route
 app.post("/location", (req, res) => {
   console.log("🔥 HIT RECEIVED");
   console.log("📍 Location:", req.body);

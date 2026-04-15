@@ -3,37 +3,30 @@ const cors = require("cors");
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// ✅ Strong CORS fix
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"]
+}));
+
+// ✅ Handle preflight requests
+app.options("*", cors());
+
 app.use(express.json());
 
-// Test route (so browser doesn't show "Cannot GET /")
 app.get("/", (req, res) => {
-  res.send("🚀 Server is running successfully");
+  res.send("Server is running 🚀");
 });
 
-// Main location route
 app.post("/location", (req, res) => {
-  const { latitude, longitude } = req.body;
+  console.log("🔥 HIT RECEIVED");
+  console.log("📍 Location:", req.body);
 
-  console.log("🔥 API HIT");
-  console.log("📍 New user location:");
-  console.log("Latitude:", latitude);
-  console.log("Longitude:", longitude);
-  console.log("----------------------");
-
-  res.json({
-    message: "Location received",
-    data: {
-      latitude,
-      longitude
-    }
-  });
+  res.json({ message: "Location received" });
 });
 
-// Port (IMPORTANT for Render)
-const PORT = process.env.PORT || 3000;
-
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
